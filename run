@@ -1,0 +1,27 @@
+#!/bin/sh
+
+RUNNING=$(docker inspect --format="{{ .State.Running }}" demo 2> /dev/null)
+if [ $? -eq 1 ] || [ "$RUNNING" == "false" ]; then
+    rm -rfv ./artifact/*.war 2>/dev/null
+
+    docker run \
+     -d \
+     --rm \
+     --name demo \
+     -p 8080:8080 \
+     -p 8181:8181 \
+     -p 4848:4848 \
+     -v "$(pwd)/artifact:/autodeploy" \
+     ivonet/payara:5.192
+
+    mvn clean package
+
+    echo "Payara 5 admin console credentials:"
+    echo "Url: https://localhost:4848"
+    echo "Usr: admin"
+    echo "Pwd: secret"
+else
+    echo "Stopping... with title demo"
+    docker rm -f demo
+fi
+

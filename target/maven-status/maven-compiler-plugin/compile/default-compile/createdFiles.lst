@@ -1,0 +1,5 @@
+com/example/jee8/service/ExampleService.class
+com/example/jee8/config/CrossOriginResourceSharingFilter.class
+com/example/jee8/config/Producers.class
+com/example/jee8/service/HealthCheckService.class
+com/example/jee8/config/BootStrap.class
